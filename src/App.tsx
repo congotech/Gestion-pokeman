@@ -1,38 +1,31 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
-import Pokemon from './models/pokemon';
-import POKEMONS from './models/mock-pokemon';
-  
-const App: FunctionComponent = () => {
-const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+import React, { FunctionComponent } from 'react';
+import PokemonList from './pages/pokemon-list';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import PokemonsDetail from './pages/pokemon-details';
+import PageNotFound from './pages/page-not-found';
+import PokemonEdit from './pages/pokemon-edit';
 
-useEffect(() => {
-    setPokemons(POKEMONS);
-}, []);
-    
- return (
-  <div>
-    <h1 className='center'>Pokédox</h1>
-    <div className='container'>
-        <div className='row'>
-            {pokemons.map(({id, name, picture, created}) => (
-                <div className='col s6 m4' key={id}>
-                    <div className='card horizental'>
-                        <div className='card-image'>
-                            <img src={picture} alt={name}/>
-                        </div>
-                        <div className='card-stacked'>
-                        <div className='card-content'>
-                            <p>{name}</p>
-                            <p><small>{created.toString()}</small></p>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            ))}
-        </div>
-    </div>
-  </div>
- )
+const App: FunctionComponent = () => {
+  return (
+    <Router>
+      <div>
+        {/* La barre de navigation commune à toutes les pages */}
+        <nav>
+          <div className="nav-wrapper teal">
+            <Link to="/" className="brand-logo center">Pokédex</Link>
+          </div>
+        </nav>
+        {/* Le système de gestion des routes de notre application */}
+        <Routes>
+          <Route path="/" element={<PokemonList />} />
+          <Route path="/pokemons" element={<PokemonList />} />
+          <Route path="/pokemons/:id" element={<PokemonsDetail />} />
+          <Route path="/pokemons/edit/:id" element={<PokemonEdit />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
-  
+
 export default App;
