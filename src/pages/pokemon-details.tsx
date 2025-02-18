@@ -1,21 +1,20 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import {Link, useParams } from 'react-router-dom';
 import Pokemon from '../models/pokemon';
-import POKEMONS from '../models/mock-pokemon';
 import formatDate from '../helpers/format-date';
 import formatType from '../helpers/format-type'; 
 import PageNotFound from './page-not-found';
+import PokemonService from '../services/pokemon-service';
   
 const PokemonsDetail: FunctionComponent = () => {
     const [pokemon, setPokemon] = useState<Pokemon|null>(null);
     const { id } = useParams<{ id: string }>();
     
     useEffect(() => {
-      // Utiliser find au lieu de forEach
-      const foundPokemon = POKEMONS.find(p => p.id.toString() === id);
-      if (foundPokemon) {
-        setPokemon(foundPokemon);
-      }
+        if(id) {
+            PokemonService.getPokemon(parseInt(id))
+                .then(pokemon => setPokemon(pokemon));
+        }
     }, [id]);
     
     return (

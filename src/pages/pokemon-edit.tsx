@@ -1,10 +1,9 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import PokemonForm from '../components/pokemon-form';
+import PokemonService from '../services/pokemon-service';
 import Pokemon from '../models/pokemon';
-import POKEMONS from '../models/mock-pokemon';
- 
-type Params = { id: string };
+
   
 const PokemonEdit: FunctionComponent = () => {
     
@@ -12,11 +11,10 @@ const PokemonEdit: FunctionComponent = () => {
    const { id } = useParams<{ id: string }>();
   
   useEffect(() => {
-    POKEMONS.find(pokemon => {
-      if (id === pokemon.id.toString()) {
-        setPokemon(pokemon);
-      }
-    })
+    if(id) {
+      PokemonService.getPokemon(parseInt(id))
+          .then(pokemon => setPokemon(pokemon));
+  }
   }, [id]);
     
   return (
@@ -24,7 +22,7 @@ const PokemonEdit: FunctionComponent = () => {
       { pokemon ? (
         <div className="row">
             <h2 className="header center">Éditer { pokemon.name }</h2>
-            <PokemonForm pokemon={pokemon}></PokemonForm>
+            <PokemonForm pokemon={pokemon} isEditForm={true}></PokemonForm>
         </div>
       ) : (
         <h4 className="center">Aucun pokémon à afficher !</h4>

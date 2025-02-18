@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PokemonsDetail from './pages/pokemon-details';
 import PageNotFound from './pages/page-not-found';
 import PokemonEdit from './pages/pokemon-edit';
+import PokemonAdd from './pages/pokemon-add';
 
 const App: FunctionComponent = () => {
   return (
@@ -21,6 +22,7 @@ const App: FunctionComponent = () => {
           <Route path="/pokemons" element={<PokemonList />} />
           <Route path="/pokemons/:id" element={<PokemonsDetail />} />
           <Route path="/pokemons/edit/:id" element={<PokemonEdit />} />
+          <Route path="/pokemon/add" element={<PokemonAdd/>} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
